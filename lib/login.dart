@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'today.dart';
 
-class login extends StatelessWidget {
+class Login extends StatelessWidget {
   // TextEditingController 생성
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
