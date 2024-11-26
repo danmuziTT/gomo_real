@@ -6,6 +6,26 @@ class Login extends StatelessWidget {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  void _showErrorDialog(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.close),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,10 +84,15 @@ class Login extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 String id = _idController.text;
-                String password = _passwordController.text;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("이메일: $id, 비밀번호: $password")),
-                );
+                String psw = _passwordController.text;
+                if(id == "")
+                  {
+                    _showErrorDialog(context, "오류!", "아이디를 입력하시오");
+                  } //아이디 입력 안 한 경우
+                else if (psw == "")
+                  {
+                    _showErrorDialog(context, "오류!", "비밀번호를 입력하시오");
+                  } //비밀번호 입력 안 한 경우
               },
               child: Text("로그인"),
             ),
