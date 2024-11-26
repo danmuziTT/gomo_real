@@ -15,6 +15,14 @@ class MyApp extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  width: 400, // 원하는 너비
+                  height: 400, // 원하는 높이
+                  child: Image(
+                    image: AssetImage('assets/images/logo.png'),
+                    fit: BoxFit.contain, // 이미지를 컨테이너 내부에 맞춤
+                  ),
+                ),
                 Text(
                   "Task Quest에 로그인하기",
                   style: TextStyle(fontSize: 30.0, color: Colors.blue),
