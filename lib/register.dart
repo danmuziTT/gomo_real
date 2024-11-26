@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 
 void _showErrorDialog(BuildContext context, String title, String message) {
@@ -26,13 +26,12 @@ void _showErrorDialog(BuildContext context, String title, String message) {
 
 
 class Register extends StatelessWidget {
+
   // TextEditingController 생성
   final TextEditingController _nameregister = TextEditingController(); //이름 등록
   final TextEditingController _idregister = TextEditingController(); // 이메일 등록
   final TextEditingController _passwordregister = TextEditingController(); // 비밀번호 등록
   final TextEditingController _passwordregister2 = TextEditingController(); // 비밀번호 맞는지 확인용
-
-  final FirebaseAuth _auth = FirebaseAuth.instance; //파이어베이스어스 인스턴트
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +95,7 @@ class Register extends StatelessWidget {
                   width: 200, // 입력창 크기 지정
                   child: TextField(
                     controller: _passwordregister,
+                    obscureText: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "비밀번호 입력",
@@ -115,6 +115,7 @@ class Register extends StatelessWidget {
                   width: 200, // 입력창 크기 지정
                   child: TextField(
                     controller: _passwordregister2,
+                    obscureText: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "비밀번호 한번 더 입력",
@@ -165,7 +166,7 @@ class Register extends StatelessWidget {
 
                 else {
 
-                }
+                }//파이어베이스 내에 있는 데이터의 이메일 확인, 같은 이메일이 있으면 거부, 다른 이메일이 있으면 등록
 
               },
               child: Text("회원가입하기"),
