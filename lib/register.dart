@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -26,7 +26,6 @@ void _showErrorDialog(BuildContext context, String title, String message) {
 
 
 class Register extends StatelessWidget {
-
   // TextEditingController 생성
   final TextEditingController _nameregister = TextEditingController(); //이름 등록
   final TextEditingController _idregister = TextEditingController(); // 이메일 등록
@@ -165,7 +164,35 @@ class Register extends StatelessWidget {
                 } //비밀번호에 숫자만 있거나, 문자만 있는 경우
 
                 else {
+                  try {
+                    // Firestore에서 이메일 중복 체크
+                    var querySnapshot = await FirebaseFirestore.instance
+                        .collection('userInfo')
+                        .where('email', isEqualTo: regist_id)
+                        .get();
 
+                    if (querySnapshot.docs.isNotEmpty) {
+                      // 이메일 중복 시 오류 메시지
+                      _showErrorDialog(context, "오류!", "이미 사용 중인 이메일입니다.");
+                    } else {
+                      // Firestore에 데이터 추가
+                      await FirebaseFirestore.instance.collection('userInfo').add({
+                        'name': regist_name,
+                        'email': regist_id,
+                        'password': regist_psw, // 실제 서비스에서는 비밀번호 해시화 필요
+                      });
+
+                      // 회원가입 성공 후 로그인 페이지로 이동
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                      );
+                      print("회원가입 성공: $regist_name, $regist_id");
+                    }
+                  } catch (e) {
+                    print("회원가입 중 오류 발생: $e");
+                    _showErrorDialog(context, "오류!", "회원가입에 실패했습니다. 다시 시도해주세요.");
+                  }
                 }//파이어베이스 내에 있는 데이터의 이메일 확인, 같은 이메일이 있으면 거부, 다른 이메일이 있으면 등록
 
               },

@@ -1,12 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'today.dart';
+import 'calender.dart';
 
 class Login extends StatelessWidget {
   // TextEditingController 생성
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  void _showErrorDialog(BuildContext context, String title, String message) {
+  void _showDialog(BuildContext context, String title, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -71,6 +72,7 @@ class Login extends StatelessWidget {
                   width: 200, // 입력창 크기 지정
                   child: TextField(
                     controller: _passwordController,
+                    obscureText: true,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "비밀번호 입력",
@@ -82,17 +84,70 @@ class Login extends StatelessWidget {
             SizedBox(height: 30),
 
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 String id = _idController.text;
                 String psw = _passwordController.text;
                 if(id == "")
                   {
-                    _showErrorDialog(context, "오류!", "아이디를 입력하시오");
+                    _showDialog(context, "오류!", "아이디를 입력하시오");
                   } //아이디 입력 안 한 경우
                 else if (psw == "")
                   {
-                    _showErrorDialog(context, "오류!", "비밀번호를 입력하시오");
+                    _showDialog(context, "오류!", "비밀번호를 입력하시오");
                   } //비밀번호 입력 안 한 경우
+
+                else{
+                  try {
+                    // Firestore에서 해당 이메일의 문서 검색
+                    var querySnapshot = await FirebaseFirestore.instance
+                        .collection('userInfo')
+                        .where('email', isEqualTo: id)
+                        .get();
+
+                    // 이메일이 존재하지 않는 경우
+                    if (querySnapshot.docs.isEmpty) {
+                      _showDialog(context, "오류!", "해당 이메일이 존재하지 않습니다.");
+                      return;
+                    }
+
+                    // 문서에서 비밀번호 가져오기
+                    var userDoc = querySnapshot.docs.first;
+                    String storedPassword = userDoc['password'];
+
+                    if (storedPassword == psw) {
+                      // 비밀번호 일치 -> 로그인 성공
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("성공"),
+                            content: Text("로그인에 성공했습니다"),
+                            actions: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CalendarPage()), // 추후 today로 바꿀 것
+                                  );
+                                },
+                                icon: Text("캘린더로 이동하기"),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+
+                    } else {
+                      // 비밀번호 불일치
+                      _showDialog(context, "오류!", "비밀번호가 올바르지 않습니다.");
+                    }
+                  } catch (e) {
+                    // Firestore 작업 중 오류 처리
+                    print("로그인 오류: $e");
+                    _showDialog(context, "오류!", "로그인에 실패했습니다. 다시 시도하세요.");
+                  }
+                }
               },
               child: Text("로그인"),
             ),
