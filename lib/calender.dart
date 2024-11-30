@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'today.dart';
+import 'info.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -19,6 +21,36 @@ class _CalendarPageState extends State<CalendarPage> {
   // 선택한 날짜에 일정 추가
   List<String> _getEventsForDay(DateTime day) {
     return _events[day] ?? [];
+  }
+
+  int _selectedIndex = 0; // 현재 선택된 버튼 인덱스
+
+  void _onItemTapped(int index) {
+    if (index == _selectedIndex) {
+      // 현재 선택된 버튼을 다시 누른 경우, 아무 동작도 하지 않음
+      return;
+    }
+
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // 버튼 클릭 시 네비게이션
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => today(), // 새 화면 위젯
+        ),
+      );
+    } else if (index == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => info(), // 다른 화면 위젯
+        ),
+      );
+    }
   }
 
   @override
@@ -65,7 +97,24 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: '달력',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: '오늘의 할일',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: '나',
+          ),
+        ],
+        currentIndex: _selectedIndex, // 현재 선택된 인덱스
+        onTap: _onItemTapped, // 탭 이벤트 처리
+      ),
     );
   }
 }
-
