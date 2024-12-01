@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'today.dart';
 import 'info.dart';
+import 'add_today.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -86,12 +87,13 @@ class _CalendarPageState extends State<CalendarPage> {
           // 일정 추가 버튼
           ElevatedButton(
             onPressed: () {
-              setState(() {
-                if (_events[_selectedDay] == null) {
-                  _events[_selectedDay] = [];
-                }
-                _events[_selectedDay]?.add('새로운 일정');
-              });
+              // 새로운 페이지로 이동
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => addtoday(), // AddToday 클래스 사용
+                ),
+              );
             },
             child: Text("일정 추가"),
           ),

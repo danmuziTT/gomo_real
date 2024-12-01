@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gomo_jinzza/today.dart';
+import 'manage_point.dart';
 import 'today.dart';
 import 'calender.dart';
+import 'manage_profile.dart';
 
 void main() {
   runApp(info());
@@ -17,7 +18,7 @@ class _infoState extends State<info> {
   int _selectedIndex = 2; // 현재 선택된 버튼 인덱스
   String userName = "name"; // Firebase에서 가져올 사용자 이름
   String profileImageUrl = "https://picsum.photos/288/364"; // Firebase에서 가져올 프로필 이미지 URL
-  int points = 0; // Firebase에서 가져올 포인트 값
+  int points = 1200; // Firebase에서 가져올 포인트 값
 
   void _onItemTapped(int index) {
     if (index == _selectedIndex) {
@@ -53,10 +54,10 @@ class _infoState extends State<info> {
       appBar: AppBar(
         title: Text('내 정보'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,  // 수직 중앙 정렬
+          crossAxisAlignment: CrossAxisAlignment.center,  // 수평 중앙 정렬
           children: [
             // 프로필 사진 원형 이미지
             CircleAvatar(
@@ -77,7 +78,7 @@ class _infoState extends State<info> {
 
             // 포인트 값 표시
             Text(
-              '₩ $points',
+              '💰 $points',
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.green,
@@ -89,14 +90,16 @@ class _infoState extends State<info> {
             // 버튼들
             ElevatedButton(
               onPressed: () {
-                // 포인트 관리하기 페이지로 이동
+                Navigator.push(context, MaterialPageRoute(builder:(context) => pointmanage()),
+                );
               },
               child: Text('포인트 관리하기'),
             ),
             SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // 프로필 관리하기 페이지로 이동
+                Navigator.push(context, MaterialPageRoute(builder:(context) => manage()),
+                );
               },
               child: Text('프로필 관리하기'),
             ),
