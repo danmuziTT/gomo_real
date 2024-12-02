@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'point_store.dart';
 import 'info.dart';
+import 'point_modi.dart';
 
 void main() {
   runApp(pointmanage());
@@ -85,7 +86,7 @@ class PointManagementScreen extends StatelessWidget {
                     minimumSize: Size(double.infinity, 50), // 버튼 크기 고정
                   ),
                   onPressed: () {
-                     //적립이력
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => pointhistory()),);
                   },
                   child: Text('포인트 적립이력'),
                 ),

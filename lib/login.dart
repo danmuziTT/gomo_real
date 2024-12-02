@@ -47,9 +47,9 @@ class Login extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("이메일", style: TextStyle(fontSize: 20)),
-                SizedBox(width: 10), // 아이디와 입력창 사이 간격
+                SizedBox(width: 38), //사이즈박스 크기 수정 (위치 조정)
                 SizedBox(
-                  width: 200, // 입력창 크기 지정
+                  width: 300, // 입력창 크기 수정 (사이즈 늘림)
                   child: TextField(
                     controller: _idController,
                     decoration: InputDecoration(
@@ -67,9 +67,9 @@ class Login extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text("비밀번호", style: TextStyle(fontSize: 20)),
-                SizedBox(width: 10),
+                SizedBox(width: 20), //사이즈박스 수정 (위치수정)
                 SizedBox(
-                  width: 200, // 입력창 크기 지정
+                  width: 300, // 입력창 크기 수정 (사이즈 늘림)
                   child: TextField(
                     controller: _passwordController,
                     obscureText: true,

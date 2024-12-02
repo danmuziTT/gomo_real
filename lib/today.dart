@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:gomo_jinzza/add_today.dart';
+import 'add_today.dart';
 import 'calender.dart';
 import 'info.dart';
+import 'point_plus.dart';
 
 class today extends StatefulWidget {
   @override
@@ -73,7 +74,7 @@ class _TodayPageState extends State<today> {
         children: [
           // 정렬하기 및 라벨로 정렬하기 버튼
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -149,6 +150,8 @@ class _TodayPageState extends State<today> {
                     onChanged: (bool? value) {
                       setState(() {
                         _checkedItems[index] = value!;
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => pointadd()),
+                        );
                       });
                     },
                   ),
@@ -187,7 +190,7 @@ class _TodayPageState extends State<today> {
                       IconButton(
                         icon: Icon(Icons.delete),
                         onPressed: () {
-                          // 삭제 로직 (Firestore 관련 없음, 예시로 UI에만 반영)
+                          // 삭제 로직 (UI에서 발현 및 파이어베이스에서 데이터 삭제할 것)
                           setState(() {
                             events.removeAt(index);
                             _checkedItems.removeAt(index); // 체크박스 상태도 동기화

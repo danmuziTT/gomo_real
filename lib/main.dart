@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
                   "Task Quest에 로그인하기",
                   style: TextStyle(fontSize: 30.0, color: Colors.blue),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 20),
 
                 Builder(
                   builder: (context) {
@@ -40,13 +40,14 @@ class MyApp extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                        minimumSize: Size(200, 50),
+                        padding: EdgeInsets.zero,
                       ),
                     );
                   },
                 ),
 
-                SizedBox(height: 20),
+                SizedBox(height: 10),
 
                 Builder(
                   builder: (context) {
@@ -59,7 +60,8 @@ class MyApp extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 20.0),
+                        minimumSize: Size(200, 50),
+                        padding: EdgeInsets.zero,
                       ),
                     );
                   },
